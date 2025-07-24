@@ -15,21 +15,19 @@ middleware1 → ❌ Error → next(err) → 🛑 Skips other middlewares → �
 
 const errorMiddleware =(err, req, res, next)=>{
     console.error("Error:", err);
-    const statusCode =err.statusCode || 500;
-    const message =err.message ||"Internal Server Error"
+    let statusCode =err.statusCode || 500;
+    let message =err.message ||"Internal Server Error"
 
     //Handling specific Mongoose errors
     //Mongoose bad ObjectId
     if(err.name=== 'CastError'){
-        const message ='Resource not found';
-        error =new Error(message);
-        error.statusCode =404; 
+        message ='Resource not found';
+        statusCode =404; 
     }
     //Mongoose duplicate key
     if(err.code===11000){
-        const message ='Duplicate field value entered';
-        error =new Error(message);
-        error.statusCode=400;
+        message ='Duplicate field value entered';
+        statusCode=400;
     }
     //Final response
     res.status(statusCode).json({

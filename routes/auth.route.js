@@ -1,16 +1,11 @@
 const express = require('express')
 const authRouter =express.Router();
+const {signIn, signOut, signUp} = require('../controllers/auth.controller.js');
+const { verifyAccessToken } = require('../middleware/auth.middleware.js');
 
+//Path:/api/v1/auth/
+authRouter.post('/signup', signUp)
+authRouter.post('/signin', signIn)
+authRouter.post('/signout',verifyAccessToken, signOut)
 
-
-authRouter.post('/signup', (req, res)=>{
-    res.send('Sign Up')
-})
-authRouter.post('/signin', (req, res)=>{
-    res.send('Sign In')
-})
-authRouter.post('/signout', (req, res)=>{
-    res.send('Sign Out')
-})
-
-module.exports =authRouter
+module.exports =authRouter 
