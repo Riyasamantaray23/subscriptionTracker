@@ -2,7 +2,7 @@ const express =require('express');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const connectDB =require('./db');
-const errorMiddleware =require('./middleware/errorMiddleware.js');
+const errorMiddleware =require('./middleware/error.middleware.js');
 
 const authRouter= require('./routes/auth.route.js')
 const userRouter= require('./routes/user.route.js')
