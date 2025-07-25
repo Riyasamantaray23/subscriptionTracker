@@ -1,4 +1,4 @@
-const mongoose =require('mongoose')
+import mongoose from 'mongoose';
 
 const subSchema = new mongoose.Schema(
     {
@@ -41,9 +41,9 @@ const subSchema = new mongoose.Schema(
             }
         },
         /* Regular functions in JavaScript get a special this value based on how they’re called.
-In Mongoose, it sets this to the current document 
-subscription.save(); // Mongoose sets `this = subscription` inside your validator
-*/
+        In Mongoose, it sets this to the current document 
+        subscription.save(); // Mongoose sets `this = subscription` inside your validator
+        */
         renewalDate:{
             type: Date,
             required: true,
@@ -77,5 +77,5 @@ subSchema.pre('save', function(next){
     next();
 })
 
-const Subscription = mongoose.model('Subscription', subSchema)
-module.exports =Subscription
+const Subscription = mongoose.model('Subscription', subSchema);
+export default Subscription;

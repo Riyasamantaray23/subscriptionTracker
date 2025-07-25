@@ -13,21 +13,21 @@ middleware1 → middleware2 → handler → res.send() → ✅ Done
 middleware1 → ❌ Error → next(err) → 🛑 Skips other middlewares → 🎯 Lands in error-handling middleware → sends error response
 */
 
-const errorMiddleware =(err, req, res, next)=>{
+const errorMiddleware = (err, req, res, next) => {
     console.error("Error:", err);
-    let statusCode =err.statusCode || 500;
-    let message =err.message ||"Internal Server Error"
+    let statusCode = err.statusCode || 500;
+    let message = err.message || "Internal Server Error";
 
     //Handling specific Mongoose errors
     //Mongoose bad ObjectId
-    if(err.name=== 'CastError'){
-        message ='Resource not found';
-        statusCode =404; 
+    if (err.name === 'CastError') {
+        message = 'Resource not found';
+        statusCode = 404; 
     }
     //Mongoose duplicate key
-    if(err.code===11000){
-        message ='Duplicate field value entered';
-        statusCode=400;
+    if (err.code === 11000) {
+        message = 'Duplicate field value entered';
+        statusCode = 400;
     }
     //Final response
     res.status(statusCode).json({
@@ -38,5 +38,4 @@ const errorMiddleware =(err, req, res, next)=>{
     res.json is a method in express used to send a response in JSON format */
 };
 
-module.exports = errorMiddleware;
-
+export default errorMiddleware;

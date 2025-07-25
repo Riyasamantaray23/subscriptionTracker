@@ -1,20 +1,13 @@
-const express =require('express')
-const userRouter =express.Router()
+import express from 'express';
+import { getUsers, getUser, deleteUser } from '../controllers/user.controller.js';
+import { verifyAccessToken } from '../middleware/auth.middleware.js';
 
-userRouter.get('/users', (req, res)=>{
-    res.send("Get all users")
-})
-userRouter.get('/:id', (req, res)=>{
-    res.send("Get user detail")
-})
-userRouter.post('/', (req, res)=>{
-    res.send("Create new user")
-})
-userRouter.put('/:id', (req, res)=>{
-    res.send("Update user")
-})
-userRouter.delete('/:id', (req, res)=>{
-    res.send("Delete user")
-})
+const userRouter = express.Router();
 
-module.exports =userRouter;
+userRouter.get('/users', verifyAccessToken, getUsers);
+userRouter.get('/:id', verifyAccessToken, getUser);
+// userRouter.post('/', createUser);
+// userRouter.put('/:id', updateUser);
+userRouter.delete('/:id', verifyAccessToken, deleteUser);
+
+export default userRouter;

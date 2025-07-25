@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 
 const userSchema = new mongoose.Schema(
@@ -77,35 +77,35 @@ const userSchema = new mongoose.Schema(
     //This is a function provided by Mongoose.It does the following:Takes 'User' as the name of the model, Uses userSchema as the blueprint (schema) for documents
 
     const User = mongoose.model('User', userSchema); //basically it is like class
-    module.exports =User;
+    export default User;
 
-/*async means the function will always return a Promise.
-await is used to wait for the Promise to resolve (or reject).
-*/
+    /*async means the function will always return a Promise.
+    await is used to wait for the Promise to resolve (or reject).
+    */
 
-/*this is a special keyword in JavaScript that refers to the context in which the current code is running — basically, "who called me?"
-The value of this changes depending on how a function is called, not where it's written.
-console.log(this); In Node.js, it's an empty object `{}` ,In browser: it would log `window`
+    /*this is a special keyword in JavaScript that refers to the context in which the current code is running — basically, "who called me?"
+    The value of this changes depending on how a function is called, not where it's written.
+    console.log(this); In Node.js, it's an empty object `{}` ,In browser: it would log `window`
 
-function show() {
-  console.log(this);
-}
-show(); // In Node.js, it's global; in strict mode, it's undefined global meaning?
+    function show() {
+    console.log(this);
+    }
+    show(); // In Node.js, it's global; in strict mode, it's undefined global meaning?
 
-const user = {
-  name: 'Riya',
-  showName: function () {
-    console.log(this.name);
-  }
-};
+    const user = {
+    name: 'Riya',
+    showName: function () {
+        console.log(this.name);
+    }
+    };
 
-user.showName(); // ✅ "Riya"  Here, this refers to user — the object before the dot. (user.showName())
+    user.showName(); // ✅ "Riya"  Here, this refers to user — the object before the dot. (user.showName())
 
-function generateAccessToken() {
-  console.log(this); // Will show the document object
-}
+    function generateAccessToken() {
+    console.log(this); // Will show the document object
+    }
 
-// Called like this:
-const user = await User.findOne({ email: "riya@example.com" });
-user.generateAccessToken(); // this → the user document
-*/
+    // Called like this:
+    const user = await User.findOne({ email: "riya@example.com" });
+    user.generateAccessToken(); // this → the user document
+    */
