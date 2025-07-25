@@ -1,26 +1,19 @@
 import express from 'express';
-
+import { verifyAccessToken } from '../middleware/auth.middleware.js';
 const subscriptionRouter = express.Router();
+import {createSubscription, getAllSubscriptions, getSubscription, deleteSubscription } from '../controllers/subscriptions.controller.js';
 
-subscriptionRouter.get('/', (req, res) => {
-    res.send('Get all subscription');
-});
+subscriptionRouter.get('/', verifyAccessToken, getAllSubscriptions);
 
-subscriptionRouter.get('/:id', (req, res) => {
-    res.send('Get subscription details');
-});
+subscriptionRouter.get('/:id',verifyAccessToken, getSubscription);
 
-subscriptionRouter.post('/', (req, res) => {
-    res.send('Create subscription');
-});
+subscriptionRouter.post('/',verifyAccessToken, createSubscription);
 
 subscriptionRouter.put('/:id', (req, res) => {
     res.send('Update subscription');
 });
 
-subscriptionRouter.delete('/:id', (req, res) => {
-    res.send('Delete subscription');
-});
+subscriptionRouter.delete('/:id',verifyAccessToken, deleteSubscription );
 
 subscriptionRouter.get('/user/:id', (req, res) => {
     res.send('Get all user subscription');
