@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model.js')
 
 const verifyAccessToken = async(req, res, next)=>{
+    //?. is optional chaining — it avoids throwing an error if req.cookies is undefined
     const token = req.cookies?.accessToken || req.headers['authorization']?.replace("Bearer ","");
 
     if(!token){

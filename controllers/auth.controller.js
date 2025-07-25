@@ -137,4 +137,48 @@ const signOut = async(req, res, next)=>{
     }
 
 }
-module.exports ={signUp, signIn, signOut};
+
+const refreshAccessToken =async(req, res, next)=>{
+    const incomingRefreshToken= req.cookies.refreshToken || req.body.refreshToken
+
+    if(!incomingRefreshToken){
+        return res.status(401).json({ success: false, message: 'Unauthorized Access' });
+    }
+    try{
+        const decodedRefreshToken =jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const user = await User.findById(decodedRefreshToken?._id);
+        if(!user){
+            return res.status(401).json({ success: false, message: 'Invalid Refresh Token' });
+        }
+
+        if(incomingRefreshToken !== user?.refreshToken){
+            return res.status(401).json({ success: false, message: 'Refresh Token is expired' });
+        }
+        const accessToken = user.generateAccessToken();
+        res
+        .cookie("accessToken", accessToken, {
+            httpOnly: true,
+            maxAge: 15 * 60 * 1000 // 15 minutes
+        })
+        .cookie("refreshToken", incomingRefreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        })
+        .status(200)
+        .json({
+            success: true,
+            message: "Access Token refreshed successfully",
+            user:{
+                _id: user._id,
+                username: user.username,
+                email:user.email,
+            }
+        });
+    }catch(err){
+        console.error("Refresh token error:", err);
+        return res.status(403).json({ success: false, message: "Token invalid or expired" });   next(err);
+    }
+
+    
+}
+module.exports ={signUp, signIn, signOut, refreshAccessToken};
